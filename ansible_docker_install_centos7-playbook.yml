@@ -1,0 +1,63 @@
+---
+   - hosts: NODE
+     remote_user: root
+     become: yes
+     tasks:
+      - name: "upgrade"
+        yum:
+         update_cache: yes
+         
+      - name: "install contenaire-selinux"
+        yum:
+         name: http://vault.centos.org/centos/7.3.1611/extras/x86_64/Packages/container-selinux-2.9-4.el7.noarch.rpm
+         state: present
+         
+      - name: "Installing Docker Prerequisite packages"
+        yum:
+         name: "{{ item }}"
+         state: latest
+        with_items:
+         - yum-utils
+         - device-mapper-persistent-data
+         - lvm2
+         
+      - name: "Configuring docker-ce repo"
+        get_url:
+          url: https://download.docker.com/linux/centos/docker-ce.repo
+          dest: /etc/yum.repos.d/docker-ce.repo
+          mode: 0644
+          
+      - name: "upgrade packages"
+        yum: name=* state=latest
+        
+      - name: "update cache"
+        yum:
+          name: "*"
+          update_cache: yes
+          state: latest
+      
+      - name: "install epel-release to get pip"
+        yum:
+          name: epel-release
+          state: present
+
+      - name: "install pip"
+        yum:
+          name: python-pip
+          state: present
+
+      - name: "install docker-py"
+        pip:
+          name=docker-py
+
+
+      - name: " Installing Docker latest version"
+        yum:
+          name: docker-ce
+          state: present
+          
+      - name: " Starting and Enabling Docker service"
+        service:
+          name: docker
+          state: started
+          enabled: yes
