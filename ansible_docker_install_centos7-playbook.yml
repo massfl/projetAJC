@@ -1,3 +1,5 @@
+### ansible playbook to install docker-ce on centos7 machines ####
+
 ---
    - hosts: NODE
      remote_user: root
