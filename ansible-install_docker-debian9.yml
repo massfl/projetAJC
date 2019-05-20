@@ -1,0 +1,56 @@
+---
+   - hosts: NODE
+     remote_user: root
+     become: yes
+     vars:
+      deb_version: #XXXXXXX la version de debian retournée par lsb_release -cs
+      deb_ver2: #uname -s
+      deb_ver3: #uname -m
+
+     tasks:
+      - name: "update"
+        apt:
+         update_cache: yes
+                  
+      - name: "install pacakges to allow apt to use a repo over https"
+        apt:
+         name: "{{ item }}"
+         state: latest
+        with_items:
+         - apt-transport-https
+         - ca-certificates
+         - curl
+         - gnupg2
+         - software-properties-common
+         
+      - name: "add the docker official GPG key file to the apt keys"
+        apt_key:
+          url: https://download.docker.com/linux/debian/gpg
+          state: present
+
+      - name: "install lsb_release"
+        apt:
+         name: lsb
+         state: latest
+      
+      - name: "set up the stable docker repo in apt"
+        apt-repository:
+          repo: deb [arch=amd64] https://download.docker.com/linux/debian {{ deb_version }} stable"
+
+
+      - name: "install docker-ce"
+        apt:
+         name: "{{ item }}"
+         state: latest
+        with_items:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+
+
+      - name: "install docker-compose"
+        get_url: 
+         url: https://github.com/docker/compose/releases/download/1.24.0/docker-compose-{{ deb_ver2 }}-{{ deb_ver3 }}
+         dest: /usr/local/bin/docker-compose
+         mode: 0744
+
