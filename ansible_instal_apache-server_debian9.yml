@@ -1,0 +1,75 @@
+---
+
+#1-install Docker
+
+- hosts: nginx
+     remote_user: root
+     become: yes
+     vars:
+      deb_version: strech
+
+     tasks:
+      - name: "update"
+        apt:
+         update_cache: yes
+	 
+      - name: "upgrade"
+        apt:
+	 upgrade=yes
+                  
+      - name: "install pacakges to allow apt to use a repo over https"
+        apt:
+         name: "{{ item }}"
+         state: latest
+        loop:
+         - apt-transport-https
+         - ca-certificates
+         - curl
+         - gnupg2
+         - software-properties-common
+         
+      - name: "add the docker official GPG key file to the apt keys"
+        apt_key:
+          url: https://download.docker.com/linux/debian/gpg
+          state: present
+
+      - name: "install lsb_release"
+        apt:
+         name: lsb
+         state: latest
+      
+      - name: "set up the stable docker repo in apt"
+        apt-repository:
+          repo: deb [arch=amd64] https://download.docker.com/linux/debian {{ strech }} stable"
+
+
+      - name: "install docker-ce"
+        apt:
+         name: "{{ item }}"
+         state: latest
+        loop:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+
+
+
+#2-install NGINX dans un container docker
+
+   - name: "création du dossier www/apache"
+     file:
+       path: /var/www/httpd
+       state: directory
+       mode: 0770 
+   
+   - name: "création du container apache"
+        docker_container:
+          name: apache-server
+          image: "httpd:latest"
+          state: started
+          published_ports:
+		    - 8080:80
+	  volumes:
+	     - /var/www/httpd:/var/
+        
+#controle sur http://10.0.0.47:8080
