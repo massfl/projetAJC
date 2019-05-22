@@ -8,10 +8,10 @@
   vars:
     deb_version: stretch #place the debian version to be installed
 
-  tasks:
-   - name: "update"
-     apt:
-       update_cache: yes
+  #tasks:
+   #- name: "update"
+    # apt:
+       #update_cache: yes
        
    - name: "upgrade"
      apt:
