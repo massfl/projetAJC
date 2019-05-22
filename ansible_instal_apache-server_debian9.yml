@@ -12,7 +12,7 @@
    - name: "update"
      apt:
        update_cache: yes
-	 
+       
    - name: "upgrade"
      apt:
        upgrade=yes
@@ -56,20 +56,20 @@
 
 #2-install NGINX dans un container docker
 
-- name: "création du dossier www/apache"
-  file:
-    path: /var/www/httpd
-    state: directory
-    mode: 0770 
+   - name: "création du dossier www/apache"
+     file:
+       path: /var/www/httpd
+       state: directory
+       mode: 0770 
    
-- name: "création du container apache"
-    docker_container:
-      name: apache-server
-      image: "httpd:latest"
-      state: started
-      published_ports:
-	- 8080:80
-      volumes:
-	- /var/www/httpd:/var/
+   - name: "création du container apache"
+       docker_container:
+         name: apache-server
+         image: httpd:latest
+         state: started
+         published_ports:
+	   - 8080:80
+	 volumes:
+	   - /var/www/httpd/html:/usr/local/apache2/htdocs/
         
 #controle sur http://10.0.0.47:8080
