@@ -68,7 +68,7 @@
        image: httpd:latest
        state: started
        published_ports:
-	 - 8080:80
+         - 8080:80
        volumes:
 	 - /var/www/httpd/html:/usr/local/apache2/htdocs/
         
