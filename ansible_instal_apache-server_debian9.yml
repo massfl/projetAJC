@@ -6,7 +6,7 @@
   remote_user: root
   become: yes
   vars:
-    deb_version: strech #place the debian version to be installed
+    deb_version: stretch #place the debian version to be installed
 
   tasks:
    - name: "update"
