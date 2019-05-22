@@ -1,9 +1,12 @@
 
 ---
-
  - hosts: runner
    tasks:
-
+     - name: "install dependencies"
+       yum:
+         name: xz-utils
+         state: latest
+         
      - name: "execution d'un conteneur gitlab-ce"
        docker_container:
          name: gitlab-runner-execution
