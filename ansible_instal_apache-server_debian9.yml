@@ -39,7 +39,7 @@
       state: latest
       
    - name: "set up the stable docker repo in apt"
-     apt-repository:
+     apt_repository:
        repo: deb [arch=amd64] https://download.docker.com/linux/debian {{ deb_version }} stable
 
 
@@ -54,7 +54,7 @@
 
 
 
-#2-install NGINX dans un container docker
+#2-install apache dans un container docker
 
    - name: "création du dossier www/apache"
      file:
