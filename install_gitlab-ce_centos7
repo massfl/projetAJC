@@ -1,0 +1,40 @@
+# Pull and execute the gitlab/gitlab-ce image form dockerhub
+
+---
+ - hosts: gitlab
+   tasks:
+     - name: "creation des dossier config"
+       file:
+         path: /root/git/config
+         state: directory
+         mode: '0755'
+
+     - name: "creation des dossier log"
+       file:
+         path: /root/git/logs
+         state: directory
+         mode: '0755'
+
+     - name: "pull docker image"
+       docker_image:
+         name: gitlab/gitlab-ce:latest
+
+     - name: "execution d'un conteneur gitlab-ce"
+       docker_container:
+         name: gitlab-ceexecution2
+         hostname: localhost.localdomain
+         image: gitlab/gitlab-ce:latest
+         detach: yes
+         restart_policy: always
+
+         volumes:
+           - /root/git/projet_app:/var/opt/gitlab
+           - /root/git/logs:/var/log/gitlab
+           - /root/git/config:/etc/gitlab
+
+         published_ports:
+           - 80:80
+           - 22:22
+           - 443:443
+
+         state: started
