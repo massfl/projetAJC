@@ -70,6 +70,6 @@
        published_ports:
          - 8080:80
        volumes:
-	 - /var/www/httpd/html:/usr/local/apache2/htdocs/
+         - /var/www/httpd/html:/usr/local/apache2/htdocs/
         
 #controle sur http://10.0.0.47:8080
