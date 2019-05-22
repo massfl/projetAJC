@@ -63,13 +63,13 @@
        mode: 0770 
    
    - name: "création du container apache"
-       docker_container:
-         name: apache-server
-         image: httpd:latest
-         state: started
-         published_ports:
-	   - 8080:80
-	 volumes:
-	   - /var/www/httpd/html:/usr/local/apache2/htdocs/
+     docker_container:
+       name: apache-server
+       image: httpd:latest
+       state: started
+       published_ports:
+	 - 8080:80
+       volumes:
+	 - /var/www/httpd/html:/usr/local/apache2/htdocs/
         
 #controle sur http://10.0.0.47:8080
