@@ -40,7 +40,7 @@
       
    - name: "set up the stable docker repo in apt"
      apt-repository:
-       repo: "deb [arch=amd64] https://download.docker.com/linux/debian {{ deb_version }} stable"
+       repo: deb [arch=amd64] https://download.docker.com/linux/debian {{ deb_version }} stable
 
 
    - name: "install docker-ce"
