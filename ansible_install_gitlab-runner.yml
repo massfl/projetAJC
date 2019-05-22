@@ -6,6 +6,7 @@
        yum:
          name: xz-utils
          state: latest
+         update_cache: yes
          
      - name: "execution d'un conteneur gitlab-ce"
        docker_container:
