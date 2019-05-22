@@ -42,6 +42,14 @@
      apt_repository:
        repo: deb [arch=amd64] https://download.docker.com/linux/debian {{ deb_version }} stable
 
+   - name: "install pip"
+     apt:
+      name: python-pip
+      state: present
+
+   - name: "install docker-py"
+     pip:
+      name=docker-py
 
    - name: "install docker-ce"
      apt:
