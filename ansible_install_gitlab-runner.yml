@@ -3,21 +3,6 @@
 
  - hosts: runner
    tasks:
-     - name: "creation des dossier config"
-       file:
-         path: /root/git/config
-         state: directory
-         mode: '0755'
-         
-     - name: "creation des dossier log"
-       file:
-         path: /root/git/logs
-         state: directory
-         mode: '0755'
-
-     - name: "pull docker image"
-       docker_image:
-         name: gitlab/gitlab-ce:latest
 
      - name: "execution d'un conteneur gitlab-ce"
        docker_container:
