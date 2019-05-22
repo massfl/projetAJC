@@ -1,0 +1,33 @@
+
+---
+
+ - hosts: runner
+   tasks:
+     - name: "creation des dossier config"
+       file:
+         path: /root/git/config
+         state: directory
+         mode: '0755'
+         
+     - name: "creation des dossier log"
+       file:
+         path: /root/git/logs
+         state: directory
+         mode: '0755'
+
+     - name: "pull docker image"
+       docker_image:
+         name: gitlab/gitlab-ce:latest
+
+     - name: "execution d'un conteneur gitlab-ce"
+       docker_container:
+         name: gitlab-runner-execution
+         hostname: runner.localdomain
+         image: gitlab/gitlab-runner:latest
+         detach: yes
+         restart_policy: always
+         volumes:
+           - /srv/gitlab-runner/config:/etc/gitlab-runner
+           - /var/run/docker.sock:/var/run/docker.sock
+
+         state: started
